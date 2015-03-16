@@ -8,7 +8,20 @@ docker run --name fake-s3 -d jrlangford/fake-s3
 
 ##Usage
 
-To create a BlobStoreContext with jclouds
+The fake-s3 server can be reached through the container's IP or through a 
+manually created DNS entry.
+
+If the application using the fake-s3 server is running inside a container then
+linking directly to fake-s3 is enough to make it accessible.
+
+Example:
+```
+docker run --link fake-s3:fake-s3 myImage
+```
+
+###jclouds
+
+A BlobStoreContext can be created in the following way:
 
 ```
 ...
