@@ -21,7 +21,8 @@ docker run --link fake-s3:fake-s3 myImage
 
 ###jclouds
 
-A BlobStoreContext can be created in the following way:
+The following block shows how to create a BlobStoreContext and how to create a
+bucket named "my-bucket" in the server using this BlobStoreContext.
 
 ```
 ...
@@ -32,9 +33,13 @@ import static org.jclouds.s3.reference.S3Constants.PROPERTY_S3_VIRTUAL_HOST_BUCK
 Properties properties = new Properties();                                                                                                                                                                                         
 properties.setProperty(PROPERTY_S3_VIRTUAL_HOST_BUCKETS, "false");                                                                                                                                                                
 																											      
-BlobStoreContext context =  ContextBuilder.newBuilder("aws-s3")                                                                                                                                                                         
-			 .endpoint("http://fake-s3:4567")                                                                                                                                                                     
-			 .credentials("dummy_access_key", "dummy_secret_key")                                                                                                                                                 
+BlobStoreContext context =  ContextBuilder.newBuilder("s3")
+			 .endpoint("http://fake-s3:4567")
+			 .credentials("dummy_access_key", "dummy_secret_key")
 			 .overrides(properties)                                                                                                                                                                               
 			 .buildView(BlobStoreContext.class);
+
+BlobStore blobStore = context.getBlobStore();
+blobStore.createContainerInLocation(null, "my-bucket");
 ```
+
