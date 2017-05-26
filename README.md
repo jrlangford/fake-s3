@@ -1,12 +1,12 @@
-#Fake-S3
+# Fake-S3
 Simple container that runs [jubos/fake-s3](https://github.com/jubos/fake-s3)
 
-##Run
+## Run
 ```
 docker run --name fake-s3 -d jrlangford/fake-s3
 ```
 
-##Usage
+## Usage
 
 The fake-s3 server can be reached through the container's IP or through a 
 manually created DNS entry.
@@ -19,7 +19,7 @@ Example:
 docker run --link fake-s3:fake-s3 myImage
 ```
 
-###jclouds
+### jclouds
 
 The following block shows how to create a BlobStoreContext and how to create a
 bucket named "my-bucket" in the server using this BlobStoreContext.
