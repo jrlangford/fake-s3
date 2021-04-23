@@ -1,12 +1,12 @@
-FROM debian:jessie
-MAINTAINER jonathan.langford@schibsted.com.mx
+# syntax=docker/dockerfile:1.2
 
-RUN apt-get update && \
-	apt-get install -y ruby rubygems-integration
+FROM ruby:3-alpine
 
-RUN gem install fakes3
+RUN apk add build-base && \
+    gem install sorted_set webrick fakes3 && \
+    apk del build-base
 
-ENTRYPOINT ["/usr/local/bin/fakes3"]
-CMD ["-r",  "/mnt/fakes3_root", "-p",  "4567"]
+ENTRYPOINT ["/usr/local/bundle/bin/fakes3"]
+CMD ["-r",  "/mnt/fakes3_root", "-p",  "4567", "--license", "$(cat /run/secrets/license)"]
 
 EXPOSE 4567
