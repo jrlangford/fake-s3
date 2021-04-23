@@ -1,45 +1,21 @@
 # Fake-S3
-Simple container that runs [jubos/fake-s3](https://github.com/jubos/fake-s3)
+
+Simple container that runs [jubos/fake-s3](https://github.com/jubos/fake-s3).
+
+Fake-s3 now requires a license, free for personal use, which can be acquired [here](https://supso.org/projects/fake-s3).
+
+## Build
+
+Place your license in `license.txt`
+
+```
+docker build --secret id=license,src=license.txt -t jrlangford/fake-s3 .
+```
 
 ## Run
-```
-docker run --name fake-s3 -d jrlangford/fake-s3
-```
-
-## Usage
-
-The fake-s3 server can be reached through the container's IP or through a 
-manually created DNS entry.
-
-If the application using the fake-s3 server is running inside a container then
-linking directly to fake-s3 is enough to make it accessible.
-
-Example:
-```
-docker run --link fake-s3:fake-s3 myImage
-```
-
-### jclouds
-
-The following block shows how to create a BlobStoreContext and how to create a
-bucket named "my-bucket" in the server using this BlobStoreContext.
 
 ```
-...
-import java.util.Properties;                                                                                                                                                                                                                  
-import static org.jclouds.s3.reference.S3Constants.PROPERTY_S3_VIRTUAL_HOST_BUCKETS;
-...
-
-Properties properties = new Properties();                                                                                                                                                                                         
-properties.setProperty(PROPERTY_S3_VIRTUAL_HOST_BUCKETS, "false");                                                                                                                                                                
-																											      
-BlobStoreContext context =  ContextBuilder.newBuilder("s3")
-			 .endpoint("http://fake-s3:4567")
-			 .credentials("dummy_access_key", "dummy_secret_key")
-			 .overrides(properties)                                                                                                                                                                               
-			 .buildView(BlobStoreContext.class);
-
-BlobStore blobStore = context.getBlobStore();
-blobStore.createContainerInLocation(null, "my-bucket");
+docker run -p 127.0.0.1:4567:4567 --name fake-s3 -d jrlangford/fake-s3
 ```
 
+The container will be accessible in `localhost:4567`
